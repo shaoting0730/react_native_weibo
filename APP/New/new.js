@@ -41,7 +41,7 @@ export default class New extends Component {
                 <View style={{height: 100,marginTop: 50,marginLeft:20,marginRight:20,flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginBottom:200}}>
                     <View>
                         <View style={{flexDirection:'row',alignItems: 'center'}}>
-                            <Text style={{fontSize:40}}>24</Text>
+                            <Text style={{fontSize:40}}>{this.state.date}</Text>
                             <View style={{marginLeft:5}}>
                                 <Text>周{this.state.day}</Text>
                                 <Text>{this.state.month}/{this.state.fullYear}</Text>

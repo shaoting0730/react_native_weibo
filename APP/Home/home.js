@@ -1,71 +1,63 @@
 /**
  * Created by shaotingzhou on 2017/4/24.
  */
-// https://api.weibo.com/oauth2/authorize?client_id=428058221&redirect_uri=http://www.baidu.com
+//首页:用户登录
 import React, { Component } from 'react';
 import {
     AppRegistry,
     StyleSheet,
     Text,
     View,
-    WebView,
-    Dimensions,
-    AsyncStorage
+    AsyncStorage,
+    Image,
 } from 'react-native';
-var {width,height} = Dimensions.get('window');
-var client_id = "428058221"   // appkey
-var redirect_uri = "http://www.baidu.com"  //授权回调页
-var client_secret = "b1b7481c44b1c5833f8203dafe24a8c2"  //App Secret
-var access_token = ''
-export default class Home extends Component {
 
+import NoLogin from './no_login'
+import Navigator2 from '../Utils/navigator2'
+
+export default class Home extends Component {
+    // 构造
+    constructor(props) {
+        super(props);
+        // 初始状态
+        this.state = {
+            access_token:''
+        };
+    }
     render() {
-        let uri = 'https://api.weibo.com/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + redirect_uri
+
+        if(this.state.access_token != null){
+            return (
+                <View style={{flex:1}}>
+                    <Navigator2  centerText = '首页'   leftAction = {()=>this.leftAction()} rightAction = {() => this.rightAction()}/>
+                    <Text>{this.state.access_token}首页数据</Text>
+                </View>
+            );
+        }else{
+            return (
+               <NoLogin mynavigator = {this.props.navigator} />
+            );
+        }
+
+
+    }
+
+    componentWillMount (){
+        //取出access_token
         AsyncStorage.getItem(
-            'key',
+            'access_token',
             (error,result)=>{
                 if (!error){
-                    access_token = result
+                    this.setState({
+                        access_token:result
+                    })
+                }else {
+
                 }
             }
         )
-        return (
-            <View style={styles.container}>
-                <WebView
-                    ref = "webView"
-                    onNavigationStateChange = {(e)=>this.onNavigationStateChange(e)}
-                    style={{width:width,height:height,backgroundColor:'gray'}}
-                    source={{uri:uri,method: 'GET'}}
-                />
-            </View>
-        );
 
     }
-    //获取code
-    onNavigationStateChange =(e) =>{
-        if(e.loading == true){
-            var indexStart = e.url.indexOf('=')
-            var indexEnd = e.url.indexOf('&')
-            var code =  e.url.substring(indexStart+1,indexEnd)
-            this.loginAction(code) // 获取授权
-        }
-    }
-
-    //获取授权
-    loginAction =(code) =>{
-        var uri = 'https://api.weibo.com/oauth2/access_token' + '?client_id=' + client_id + '&client_secret=' + client_secret + '&grant_type=' + 'authorization_code' + '&code=' + code + '&redirect_uri=' + redirect_uri
-        fetch(uri,{
-            method:'POST',
-        })
-            .then((response) => response.json())
-            .then((json) => {
-                if(json.access_token){
-                    access_token =  json.access_token
-                }
-            })
-
-    }
-
 
 
 }
