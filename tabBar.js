@@ -9,7 +9,8 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Platform
 } from 'react-native';
 
 import TabNavigator from 'react-native-tab-navigator'
@@ -87,14 +88,15 @@ export default class TabBar extends Component {
                         onPress={() => this.setState({ selectedTab: 'Mine' })}>
                         <Mine {...this.props} />
                     </TabNavigator.Item>
-                </TabNavigator>
 
+                </TabNavigator>
                 <TouchableOpacity onPress={() => this.goRoute()} >
                     <Image
                         style={styles.newStyle}
                         source={require('./image/new.png')}
                     />
                 </TouchableOpacity>
+
             </View>
         );
     }
@@ -107,7 +109,7 @@ export default class TabBar extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        height: Platform.OS === 'ios' ? height : height-20 ,
     },
     iconStyle: {
         width: 25,

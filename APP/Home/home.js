@@ -1,7 +1,7 @@
 /**
  * Created by shaotingzhou on 2017/4/24.
  */
-//首页:用户登录
+//首页:这里取出本地化的access_token.判断
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -12,8 +12,8 @@ import {
     Image,
 } from 'react-native';
 
-import NoLogin from './no_login'
-import Navigator2 from '../Utils/navigator2'
+import NoLogin from './home_notlogin'
+import Logined from './home_logined'
 
 export default class Home extends Component {
     // 构造
@@ -21,24 +21,20 @@ export default class Home extends Component {
         super(props);
         // 初始状态
         this.state = {
-            access_token:''
+            access_token:null
         };
     }
     render() {
 
         if(this.state.access_token != null){
             return (
-                <View style={{flex:1}}>
-                    <Navigator2  centerText = '首页'   leftAction = {()=>this.leftAction()} rightAction = {() => this.rightAction()}/>
-                    <Text>{this.state.access_token}首页数据</Text>
-                </View>
+                <Logined mynavigator = {this.props.navigator} access_token = {this.state.access_token} />
             );
         }else{
             return (
-               <NoLogin mynavigator = {this.props.navigator} />
+                <NoLogin mynavigator = {this.props.navigator}  />
             );
         }
-
 
     }
 
@@ -51,8 +47,6 @@ export default class Home extends Component {
                     this.setState({
                         access_token:result
                     })
-                }else {
-
                 }
             }
         )

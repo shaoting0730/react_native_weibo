@@ -26,7 +26,6 @@ export default class Root extends Component {
     render() {
         return (
             <Navigator
-                style={{flex:1}}
                 initialRoute={{component: TabBar}}
                 configureScene={this.configureScene}
                 renderScene={this.renderScene}

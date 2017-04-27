@@ -1,7 +1,7 @@
 /**
  * Created by shaotingzhou on 2017/4/26.
  */
-// 未登录界面
+// 没有access_token
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -19,7 +19,7 @@ import Navigator1 from '../Utils/navigator1'
 var {width,height} = Dimensions.get('window');
 import Login from './login'
 
-export default class No_login extends Component {
+export default class Home_notlogin extends Component {
     // 构造
     constructor(props) {
         super(props);
@@ -36,7 +36,7 @@ export default class No_login extends Component {
         })
 
         return (
-            <View style={{flex:1}}>
+            <View style={{flex:1,backgroundColor:'white'}}>
                 <Navigator1 leftText = '注册' centerText = '首页'  rightText = '登录' leftAction = {()=>this.leftAction()} rightAction = {() => this.rightAction()}/>
                 <View style={{alignItems:'center',marginTop:100}}>
                     <Animated.Image source={require('../../image/no-login.png')} style={{width:width*0.6,height:width*0.6,transform: [{rotate: spin}] }}/>
@@ -51,7 +51,7 @@ export default class No_login extends Component {
     }
 
     leftAction =() =>{
-        alert('注册')
+        alert('微博api未公开注册接口,点击登录跳转注册')
     }
     //登录按钮
     rightAction = () =>{
@@ -100,4 +100,3 @@ const styles = StyleSheet.create({
     },
 });
 
-AppRegistry.registerComponent('react_native_weibo', () => react_native_weibo);
