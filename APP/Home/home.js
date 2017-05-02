@@ -10,6 +10,7 @@ import {
     View,
     AsyncStorage,
     Image,
+    DeviceEventEmitter
 } from 'react-native';
 
 import NoLogin from './home_notlogin'
@@ -28,7 +29,7 @@ export default class Home extends Component {
 
         if(this.state.access_token != null){
             return (
-                <Logined mynavigator = {this.props.navigator} access_token = {this.state.access_token} />
+                <Logined mynavigator = {this.props.navigator} access_token = {this.state.access_token}  />
             );
         }else{
             return (
@@ -39,7 +40,6 @@ export default class Home extends Component {
     }
 
     componentWillMount (){
-        //取出access_token
         AsyncStorage.getItem(
             'access_token',
             (error,result)=>{
@@ -52,6 +52,7 @@ export default class Home extends Component {
         )
 
     }
+
 
 
 }

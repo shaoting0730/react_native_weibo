@@ -57,7 +57,7 @@ export default class Home_notlogin extends Component {
     rightAction = () =>{
         this.props.mynavigator.push(
             {
-                component:Login
+                component:Login,
             }
         )
     }

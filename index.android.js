@@ -13,4 +13,5 @@ import {
 } from 'react-native';
 import Root from './root'
 
+
 AppRegistry.registerComponent('react_native_weibo', () => Root);

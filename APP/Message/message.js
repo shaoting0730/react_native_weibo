@@ -10,55 +10,46 @@ import {
     View,
     AsyncStorage
 } from 'react-native';
-import TabBar from '../../tabBar'
+import Logined from './message_logined'
+import NoLogin from './message_notlogin'
 
 export default class Message extends Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.welcome} onPress={()=>this.loginOut()}>
-                    暂时注销
-                </Text>
-            </View>
-        );
+
+    // 构造
+    constructor(props) {
+        super(props);
+        // 初始状态
+        this.state = {
+            access_token:null
+        };
     }
-    loginOut =()=> {
-        let uri =
-            // 取值里面 有 网络请求  有 移除本地存值 有 跳转  ? 性能问题
+    render() {
+
+        if(this.state.access_token != null){
+            return (
+                <Logined mynavigator = {this.props.navigator} access_token = {this.state.access_token} />
+            );
+        }else{
+            return (
+                <NoLogin mynavigator = {this.props.navigator} />
+            );
+        }
+
+    }
+
+    componentWillMount (){
+        //取出本地化的access_token
             AsyncStorage.getItem(
                 'access_token',
-                (error, result) => {
-                    if (!error) {
-                        //值有 开始网络请求
-                        fetch('https://api.weibo.com/oauth2/revokeoauth2?access_token=' + result)
-                            .then((response) => response.json())
-                            .then((json) => {
-                                console.log(json)
-                                if(json.result == "true"){  //只有服务器移除授权之后才移除本地存值
-                                    AsyncStorage.removeItem(
-                                        'access_token',
-                                        (error)=>{
-                                            if(!error){
-                                                //移除完之后开始跳界面
-                                                this.props.navigator.immediatelyResetRouteStack([
-                                                    {
-                                                        component:TabBar
-                                                    }
-                                                ])
-                                            }
-                                        }
-                                    )
-                                }else {
-                                    alert('没登录,点个毛')
-                                }
-
-                            })
+                (error,result)=>{
+                    if (!error){
+                        this.setState({
+                            access_token:result
+                        })
                     }
                 }
             )
-
-
-    }
+        }
 
 
 

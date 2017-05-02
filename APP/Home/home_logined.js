@@ -13,10 +13,12 @@ import {
     Image,
     ListView,
     AsyncStorage,
-    TextInput
+    TextInput,
+    ScrollView
 } from 'react-native';
 
 import Navigator2 from '../Utils/navigator2'
+var {width,height} = Dimensions.get('window');
 
 var ary = []
 var ds = new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
@@ -28,14 +30,13 @@ export default class Home_logined extends Component {
 
         // 初始状态
         this.state = {
-            access_token:'',
             dataSource:ds.cloneWithRows(ary),
         };
     }
-    render() {
+    render () {
         return (
             <View style={{flex:1}}>
-                <Navigator2  centerText = '首页'   leftAction = {()=>this.leftAction()} rightAction = {() => this.rightAction()}/>
+                <Navigator2  centerText = '首页'   leftSource  = {require('../../image/相机.png')} rightSource = {require('../../image/二维码.png')} leftAction = {()=>this.leftAction()} rightAction = {() => this.rightAction()}/>
                 <View style={{backgroundColor:'#EAEAEA',height:40,justifyContent:'center'}}>
                     <TextInput style={{height:30,backgroundColor:'white',marginLeft:5,marginRight:5,borderRadius:3}} placeholder={'  🔍 大家都在搜: react native '}/>
                 </View>
@@ -48,20 +49,16 @@ export default class Home_logined extends Component {
         );
     }
 
-    renderRow(rowData,sectionID,rowID,highlightRow){
+    renderRow =(rowData,sectionID,rowID,highlightRow) =>{
         // 截取字符串 <a href="http://app.weibo.com/t/feed/6vtZb0" rel="nofollow">微博 weibo.com</a>
         let textEnd = ''
         if(rowData.source){
             let ary = rowData.source.split('<')
             let text = ary[1]
-            console.log(text)
             let startIndex = text.indexOf('>')
             textEnd = text.substring(startIndex + 1,text.length)
             textEnd = '来自  ' + textEnd
         }
-
-        //时间计算
-
 
 
         return(
@@ -76,7 +73,8 @@ export default class Home_logined extends Component {
                 </View>
                 {/*中间微博信息*/}
                 <View>
-                    <Text>{rowData.text} 转发</Text>
+                    <Text>{rowData.text}</Text>
+                    {this.middleViewRender(rowData,sectionID,rowID,highlightRow)}
                 </View>
                 {/*转发.评论.点赞*/}
                 <View style={{flexDirection:'row',justifyContent:'space-around'}}>
@@ -102,6 +100,59 @@ export default class Home_logined extends Component {
 
 
 
+
+    // 辨识是否微博转发
+    middleViewRender (rowData,sectionID,rowID,highlightRow){
+
+        if(rowData.retweeted_status){
+            //转发
+            return(
+                <Text>转发</Text>
+            )
+        }else{
+            //原创
+            //取出图片url
+            var imgAry = rowData.pic_urls
+            var imgUrlAry = []
+            imgAry.forEach(function (val, index) {
+                var url = val.thumbnail_pic
+                imgUrlAry.push(url)
+            })
+            if(imgUrlAry.length > 0) {
+                return(
+                    <View style={{flexDirection:'row',flexWrap:'wrap'}}>
+                        {this.renderImg(imgUrlAry)}
+                    </View>
+                )
+            }
+        }
+    }
+
+    //图片render
+    renderImg = (imgUrlAry) =>{
+        var itemAry = [];
+        for(var i = 0;i < imgUrlAry.length; i++){
+            if(imgUrlAry.length == 1){
+                itemAry.push(
+                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:200,height:200}}/>
+                )
+            }else if(imgUrlAry.length == 2){
+                itemAry.push(
+                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:width/2,height:200}}/>
+                )
+            }else {
+                itemAry.push(
+                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:width/3,height:150}}/>
+                )
+            }
+        }
+
+        return itemAry
+    }
+
+
+
+
     leftAction =() =>{
 
     }
@@ -111,40 +162,22 @@ export default class Home_logined extends Component {
 
     }
 
-    middleViewRender (rowData,sectionID,rowID,highlightRow){
-        //是否原创微博
-        if(rowData.retweeted_status){
-            //转发
-           return(
-               <Text>{rowData.text} 转发</Text>
-           )
-        }else{
-            //原创
-            return(
-                <Text>{rowData.text} 原创</Text>
-            )
-
-        }
-
-    }
-
-
-
-
     componentDidMount (){
         //请求数据
+        console.log('https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=1')
         let uri = 'https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=1'
         fetch(uri)
             .then((response) => response.json())
             .then((json) => {
-                console.log(json.statuses)
-                this.setState({
-                    dataSource:ds.cloneWithRows(json.statuses),
-                })
+                if (json.error_code == 10023) {
+                    alert('api请求次数受限,请更换. 10023')
+                } else {
+                    this.setState({
+                        dataSource: ds.cloneWithRows(json.statuses),
 
+                    })
+                }
             })
-
-
 
     }
 

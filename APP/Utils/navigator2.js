@@ -18,13 +18,13 @@ export default class Navigator2 extends Component {
         return (
             <View style={styles.container}>
                 <TouchableOpacity style={{marginLeft:20}} onPress={()=>this.props.leftAction()}>
-                    <Image source={require('../../image/相机.png')} style={{width:25,height:25}}/>
+                    <Image source={this.props.leftSource} style={{width:25,height:25}}/>
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <Text style={{fontWeight:'700',fontSize:18}}>{this.props.centerText}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginRight:20}} onPress={()=>this.props.rightAction()} >
-                    <Image source={require('../../image/二维码.png')} style={{width:25,height:25}}/>
+                    <Image source={this.props.rightSource} style={{width:25,height:25}}/>
                 </TouchableOpacity>
             </View>
         );

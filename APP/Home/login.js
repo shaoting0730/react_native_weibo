@@ -11,7 +11,8 @@ import {
     View,
     WebView,
     Dimensions,
-    AsyncStorage
+    AsyncStorage,
+    ActivityIndicator
 } from 'react-native';
 
 import Navigator1 from '../Utils/navigator1'
@@ -19,9 +20,9 @@ import TabBar from '../../tabBar'
 
 
 var {width,height} = Dimensions.get('window');
-var client_id = "428058221"   // appkey
+var client_id = "3802325060"   // appkey
 var redirect_uri = "http://www.baidu.com"  //授权回调页
-var client_secret = "b1b7481c44b1c5833f8203dafe24a8c2"  //App Secret
+var client_secret = "cfb876dc41200a29bf197aa330655ae3"  //App Secret
 export default class Login extends Component {
 
     render() {
@@ -35,11 +36,18 @@ export default class Login extends Component {
                     onNavigationStateChange = {(e)=>this.onNavigationStateChange(e)}
                     style={{width:width,height:height,backgroundColor:'gray'}}
                     source={{uri:uri,method: 'GET'}}
+                    renderLoading = {this.renderActivityIndicator}
                 />
             </View>
         );
 
     }
+    renderActivityIndicator (){
+        return(
+            <ActivityIndicator />
+        )
+    }
+
     //获取code
     onNavigationStateChange =(e) =>{
         if(e.loading == true){
@@ -73,6 +81,7 @@ export default class Login extends Component {
                                         component:TabBar
                                     }
                                 ])
+
                             }
                         }
                     );
@@ -87,6 +96,8 @@ export default class Login extends Component {
     rightAction = () =>{
 
     }
+
+
 
 
 }

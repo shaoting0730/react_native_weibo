@@ -1,7 +1,6 @@
 /**
- * Created by shaotingzhou on 2017/4/24.
+ * Created by shaotingzhou on 2017/5/2.
  */
-
 import React, { Component } from 'react';
 import {
     AppRegistry,
@@ -12,14 +11,14 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
-export default class SwiperItem extends Component {
+export default class InfoItem extends Component {
     render() {
         return (
-            <TouchableOpacity  onPress={()=>alert(this.props.text)}>
-            <View style={styles.container}>
-                <Image source={this.props.source} style={{width:40,height:40}}/>
-                <Text style={{marginTop:5,fontSize:10}}>{this.props.text}</Text>
-            </View>
+            <TouchableOpacity  onPress={()=>alert(this.props.txt1)}>
+                <View style={{marginTop:5,marginBottom:5}}>
+                    <Text style={{fontWeight:'bold'}}>{this.props.txt1}</Text>
+                    <Text style={{color:'#CCCCCC',fontSize:11}}>{this.props.txt2}</Text>
+                </View>
             </TouchableOpacity>
         );
     }
