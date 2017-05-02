@@ -94,6 +94,14 @@ export default class Mine_logined extends Component {
     }
 
 
+    componentDidMount() {
+         let url = 'https://api.weibo.com/2/users/show.json?access_token=' + this.props.access_token
+        fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+               console.log(json)
+            })
+    }
 
 
 }

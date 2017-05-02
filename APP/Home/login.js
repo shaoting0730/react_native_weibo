@@ -20,9 +20,9 @@ import TabBar from '../../tabBar'
 
 
 var {width,height} = Dimensions.get('window');
-var client_id = "3802325060"   // appkey
+var client_id = "308768878"   // appkey
 var redirect_uri = "http://www.baidu.com"  //授权回调页
-var client_secret = "cfb876dc41200a29bf197aa330655ae3"  //App Secret
+var client_secret = "43a1d0a73c0a4940ea5691b73cf3a577"  //App Secret
 export default class Login extends Component {
 
     render() {

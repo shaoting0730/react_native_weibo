@@ -14,7 +14,8 @@ import {
     ListView,
     AsyncStorage,
     TextInput,
-    ScrollView
+    ScrollView,
+    RefreshControl
 } from 'react-native';
 
 import Navigator2 from '../Utils/navigator2'
@@ -22,6 +23,7 @@ var {width,height} = Dimensions.get('window');
 
 var ary = []
 var ds = new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !== r2});
+var num = 1 //第几页数据
 export default class Home_logined extends Component {
 
     // 构造
@@ -31,6 +33,7 @@ export default class Home_logined extends Component {
         // 初始状态
         this.state = {
             dataSource:ds.cloneWithRows(ary),
+            isRefreshing:false
         };
     }
     render () {
@@ -41,12 +44,27 @@ export default class Home_logined extends Component {
                     <TextInput style={{height:30,backgroundColor:'white',marginLeft:5,marginRight:5,borderRadius:3}} placeholder={'  🔍 大家都在搜: react native '}/>
                 </View>
                 <ListView
+                    refreshControl={
+                    <RefreshControl
+                    refreshing={this.state.isRefreshing}
+                    onRefresh={()=>this.onRefreshData()}
+                    />
+                    }
+                    onEndReached={()=>this.loadMore()}
                     dataSource={this.state.dataSource}
                     renderRow={this.renderRow}
                     enableEmptySections={true}  //去除警告
                 />
             </View>
         );
+    }
+
+    onRefreshData =() =>{
+        this.loadData(1)
+    }
+    loadMore =() =>{
+        num ++
+        this.loadData(num)
     }
 
     renderRow =(rowData,sectionID,rowID,highlightRow) =>{
@@ -92,7 +110,7 @@ export default class Home_logined extends Component {
                     </View>
                 </View>
                 {/*分隔条*/}
-                <View style={{height:15,backgroundColor:'#F0F0F0'}}/>
+                <View style={{height:15,backgroundColor:'#CCCCCC'}}/>
 
             </View>
         );
@@ -105,9 +123,12 @@ export default class Home_logined extends Component {
     middleViewRender (rowData,sectionID,rowID,highlightRow){
 
         if(rowData.retweeted_status){
+            let retweeted_status = rowData.retweeted_status
             //转发
             return(
-                <Text>转发</Text>
+                <View style={{backgroundColor:'#F8F8FF',marginLeft:10}}>
+                    <Text style={{fontSize:12}}>@{retweeted_status.user.name}:{retweeted_status.text}</Text>
+                </View>
             )
         }else{
             //原创
@@ -121,7 +142,7 @@ export default class Home_logined extends Component {
             if(imgUrlAry.length > 0) {
                 return(
                     <View style={{flexDirection:'row',flexWrap:'wrap'}}>
-                        {this.renderImg(imgUrlAry)}
+                        {this.renderImg(imgUrlAry,rowData)}
                     </View>
                 )
             }
@@ -129,14 +150,14 @@ export default class Home_logined extends Component {
     }
 
     //图片render
-    renderImg = (imgUrlAry) =>{
+    renderImg = (imgUrlAry,rowData) =>{
         var itemAry = [];
         for(var i = 0;i < imgUrlAry.length; i++){
-            if(imgUrlAry.length == 1){
+            if(imgUrlAry.length == 1){ //只有一张图片,拿原图
                 itemAry.push(
-                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:200,height:200}}/>
+                    <Image key={i} source={{uri:rowData.original_pic}} style={{width:200,height:200}}/>
                 )
-            }else if(imgUrlAry.length == 2){
+            }else if(imgUrlAry.length == 2 || imgUrlAry.length == 4){
                 itemAry.push(
                     <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:width/2,height:200}}/>
                 )
@@ -163,22 +184,29 @@ export default class Home_logined extends Component {
     }
 
     componentDidMount (){
+        this.loadData(1)
+    }
+
+
+    loadData = (num) =>{
         //请求数据
-        console.log('https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=1')
-        let uri = 'https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=1'
+        console.log('https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=')
+        let uri = 'https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=' + num
         fetch(uri)
             .then((response) => response.json())
             .then((json) => {
                 if (json.error_code == 10023) {
                     alert('api请求次数受限,请更换. 10023')
                 } else {
+                    json.statuses.forEach(function (val, index) {
+                        ary.push(val)
+                    })
                     this.setState({
-                        dataSource: ds.cloneWithRows(json.statuses),
+                        dataSource: ds.cloneWithRows(ary),
 
                     })
                 }
             })
-
     }
 
 
