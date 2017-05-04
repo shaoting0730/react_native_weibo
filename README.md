@@ -7,11 +7,11 @@
     "react-native-tab-navigator": "^0.3.3"      </br>
 运行截图: </br>
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo1.png) </br>
-![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo2.png) </br>
+![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo2.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo3.png) </br>
-![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo4.png) </br>
+![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo4.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo5.png) </br>
-![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo6.png) </br>
+![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo6.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo7.png) </br>
-![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo8.png) </br>
+![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo8.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo9.png) </br>
