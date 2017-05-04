@@ -36,6 +36,7 @@ export default class Login extends Component {
                     onNavigationStateChange = {(e)=>this.onNavigationStateChange(e)}
                     style={{width:width,height:height,backgroundColor:'gray'}}
                     source={{uri:uri,method: 'GET'}}
+                    startInLoadingState = {true}
                     renderLoading = {this.renderActivityIndicator}
                 />
             </View>
@@ -44,7 +45,9 @@ export default class Login extends Component {
     }
     renderActivityIndicator (){
         return(
+            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
             <ActivityIndicator />
+            </View>
         )
     }
 
@@ -69,6 +72,21 @@ export default class Login extends Component {
             .then((json) => {
 
                 if(json.access_token){
+                    //请求uid
+                    let url = 'https://api.weibo.com/2/account/get_uid.json?access_token=' + json.access_token
+                    fetch(url)
+                        .then((response) => response.json())
+                        .then((json) => {
+                            let uid = json.uid.toString()
+                            //存uid
+                            AsyncStorage.setItem(
+                                'uid',
+                                  uid,
+                            );
+
+                        })
+
+
                     //存access_token
                     AsyncStorage.setItem(
                         'access_token',

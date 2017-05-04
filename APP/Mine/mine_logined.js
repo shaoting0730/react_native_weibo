@@ -27,7 +27,13 @@ export default class Mine_logined extends Component {
         super(props);
         // 初始状态
         this.state = {
-            access_token:null
+            access_token:null,
+            statuses_count:0, //微博数
+            friends_count:0,  //关注数
+            followers_count:0, //粉丝
+            name:'',  //用户名
+            avatar_large:'https://s3.amazonaws.com/media-p.slid.es/uploads/alexanderfarennikov/images/1198519/reactjs.png', //头像
+            description:''  //个人描述
         };
     }
     render() {
@@ -38,17 +44,17 @@ export default class Mine_logined extends Component {
                     {/*个人信息*/}
                     <View>
                         <View style={{flexDirection:'row'}}>
-                            <Image source={require('../../image/评论.png')} style={{width:60,height:60,borderRadius:30}} />
+                            <Image source={{uri:this.state.avatar_large}} style={{width:60,height:60,borderRadius:30}} />
                             <View style={{justifyContent:'center'}}>
-                                <Text style={{fontWeight:'bold'}}>少停</Text>
-                                <Text style={{color:'#CCCCCC',fontSize:11}}>简介:暂无介绍</Text>
+                                <Text style={{fontWeight:'bold'}}>{this.state.name}</Text>
+                                <Text style={{color:'#CCCCCC',fontSize:11}}>{this.state.description}</Text>
                             </View>
                         </View>
                         <View style={{backgroundColor:'#F0F0F0',height:1}}></View>
                         <View style={{flexDirection:'row',justifyContent:'space-around'}}>
-                            <Info txt1 = '110' txt2 = '微博' />
-                            <Info txt1 = '110' txt2 = '关注' />
-                            <Info txt1 = '110' txt2 = '粉丝' />
+                            <Info txt1 = {this.state.statuses_count} txt2 = '微博' />
+                            <Info txt1 = {this.state.friends_count} txt2 = '关注' />
+                            <Info txt1 = {this.state.followers_count} txt2 = '粉丝' />
                         </View>
                         <View style={{backgroundColor:'#F0F0F0',height:5}}></View>
                     </View>
@@ -95,12 +101,35 @@ export default class Mine_logined extends Component {
 
 
     componentDidMount() {
-         let url = 'https://api.weibo.com/2/users/show.json?access_token=' + this.props.access_token
-        fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
-               console.log(json)
-            })
+        //获取用户的uid
+        //取出本地化的access_token
+        AsyncStorage.getItem(
+            'uid',
+            (error,result)=>{
+                if (!error){
+
+                    let url = 'https://api.weibo.com/2/users/show.json?access_token=' + this.props.access_token + '&uid=' + result
+                    fetch(url)
+                        .then((response) => response.json())
+                        .then((json) => {
+                           if(!json.error){
+                               this.setState({
+                                   avatar_large:json.avatar_large,
+                                   statuses_count:json.statuses_count,
+                                   friends_count:json.friends_count,
+                                   followers_count:json.followers_count,
+                                   name:json.name,
+                                   avatar_large:json.avatar_large,
+                                   description:json.description == ''? '简介: 暂无介绍' : json.description
+                               })
+                           }
+                        })
+
+
+                }
+            }
+        )
+
     }
 
 

@@ -60,6 +60,7 @@ export default class Home_logined extends Component {
     }
 
     onRefreshData =() =>{
+        ary = [];
         this.loadData(1)
     }
     loadMore =() =>{
@@ -95,7 +96,7 @@ export default class Home_logined extends Component {
                     {this.middleViewRender(rowData,sectionID,rowID,highlightRow)}
                 </View>
                 {/*转发.评论.点赞*/}
-                <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+                <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:10}}>
                     <View style={{flexDirection:'row'}}>
                         <Image source={require('../../image/转发.png')} style={{width:20,height:20}} />
                         <Text>{rowData.reposts_count == 0 ? '转发' :rowData.reposts_count}</Text>
@@ -125,11 +126,24 @@ export default class Home_logined extends Component {
         if(rowData.retweeted_status){
             let retweeted_status = rowData.retweeted_status
             //转发
-            return(
-                <View style={{backgroundColor:'#F8F8FF',marginLeft:10}}>
+            //取出图片url
+            var imgAry = retweeted_status.pic_urls
+            var imgUrlAry = []
+            imgAry.forEach(function (val, index) {
+                var url = val.thumbnail_pic
+                imgUrlAry.push(url)
+            })
+            if(imgUrlAry.length > 0) {
+                return(
+                <View style={{marginLeft:5,marginRight:5,backgroundColor:'#F8F8FF'}}>
                     <Text style={{fontSize:12}}>@{retweeted_status.user.name}:{retweeted_status.text}</Text>
+                    <View style={{flexDirection:'row',flexWrap:'wrap'}}>
+                        {this.renderImg(imgUrlAry,rowData)}
+                    </View>
                 </View>
-            )
+
+                )
+            }
         }else{
             //原创
             //取出图片url
@@ -159,11 +173,11 @@ export default class Home_logined extends Component {
                 )
             }else if(imgUrlAry.length == 2 || imgUrlAry.length == 4){
                 itemAry.push(
-                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:width/2,height:200}}/>
+                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:width/2-10,height:200,marginLeft:1,marginTop:1}}/>
                 )
             }else {
                 itemAry.push(
-                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:width/3,height:150}}/>
+                    <Image key={i} source={{uri:imgUrlAry[i]}} style={{width:width/3-10,height:150,marginLeft:1,marginTop:1}}/>
                 )
             }
         }
@@ -190,7 +204,7 @@ export default class Home_logined extends Component {
 
     loadData = (num) =>{
         //请求数据
-        console.log('https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=')
+        console.log('https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=' + num)
         let uri = 'https://api.weibo.com/2/statuses/home_timeline.json?access_token=' + this.props.access_token + '&page=' + num
         fetch(uri)
             .then((response) => response.json())
