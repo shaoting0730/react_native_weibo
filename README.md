@@ -24,3 +24,4 @@
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo8.png) </br>
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/9.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo10.png) </br>
+新项目开始了,该项目暂时放一放吧.
