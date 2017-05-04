@@ -15,3 +15,4 @@
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo7.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo8.png) </br>
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo9.png) 
+![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo10.png) </br>
