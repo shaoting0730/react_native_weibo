@@ -4,7 +4,15 @@
 因为项目较为简单,所以不使用redux或者mbox.</br>
 使用的第三方库:</br>
     "react-native-swiper": "^1.5.4"  
-    "react-native-tab-navigator": "^0.3.3"      </br>
+    "react-native-tab-navigator": "^0.3.3"      </br>
+完成功能: </br>
+ - [x] 授权登录<br/>
+ - [x] 授权注销<br/>
+ - [x] 微博首页原创微博<br/>
+ - [x] 微博首页转发微博<br/>
+ - [x] 我的界面个人信息<br/>
+ - [x] 中间按钮基本界面搭建<br/>
+ - [ ] 其他<br/>
 运行截图: </br>
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo1.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo2.png) </br>
