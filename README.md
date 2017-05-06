@@ -6,6 +6,7 @@
     "react-native-swiper": "^1.5.4"  
     "react-native-tab-navigator": "^0.3.3"      </br>
 完成功能: </br>
+ - [x] 除少量控件外以基本适配iOS和Android<br/>
  - [x] 授权登录<br/>
  - [x] 授权注销<br/>
  - [x] 微博首页原创微博<br/>
