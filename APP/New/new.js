@@ -10,10 +10,11 @@ import {
     View,
     Image,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    Animated,
+    Easing
 } from 'react-native';
 import Swiper from 'react-native-swiper'
-
 import TabBar from '../../tabBar'
 import SwiperItem from './swiperItem'
 
@@ -24,7 +25,8 @@ export default class New extends Component {
     // 构造
       constructor(props) {
         super(props);
-        // 初始状态
+          this.animatedValue = new Animated.Value(0)
+          // 初始状态
         this.state = {
             date:'',   //日
             month:'',   //月
@@ -33,8 +35,22 @@ export default class New extends Component {
             weather:''   //天气
         };
       }
-
+    animate () {
+        this.animatedValue.setValue(0)
+        Animated.timing(
+            this.animatedValue,
+            {
+                toValue: 1,
+                duration: 1000,
+                easing: Easing.linear
+            }
+        ).start()
+    }
     render() {
+        const marginTop = this.animatedValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [300, 0]
+        })
         return (
             <View style={styles.container}>
                 {/*上方的日期天气栏目*/}
@@ -52,35 +68,37 @@ export default class New extends Component {
                     <Image source={require('../../image/广告.png')} style={{width:150,height:150}}/>
                 </View>
                 {/*中部的轮播*/}
+                <Animated.View style={{marginTop}}>
                 <Swiper height = {200} loop = {false}>
                     <View style={styles.slideView}>
                         <View style={{flexDirection:'row'}}>
-                            <SwiperItem source = {require('../../image/item1.png')} text = "文字"/>
-                            <SwiperItem source = {require('../../image/item2.png')} text = "拍摄"/>
-                            <SwiperItem source = {require('../../image/item3.png')} text = "相册"/>
-                            <SwiperItem source = {require('../../image/item4.png')} text = "直播"/>
+                            <SwiperItem source = {require('../../image/item1.png')} text = "文字" mynavigator = {this.props.navigator} />
+                            <SwiperItem source = {require('../../image/item2.png')} text = "拍摄" mynavigator = {this.props.navigator} />
+                            <SwiperItem source = {require('../../image/item3.png')} text = "相册" mynavigator = {this.props.navigator} />
+                            <SwiperItem source = {require('../../image/item4.png')} text = "直播"mynavigator = {this.props.navigator} />
                         </View>
                         <View style={{flexDirection:'row'}}>
-                            <SwiperItem source = {require('../../image/item5.png')} text = "光影秀"/>
-                            <SwiperItem source = {require('../../image/item6.png')} text = "头条文章"/>
-                            <SwiperItem source = {require('../../image/item7.png')} text = "签到"/>
-                            <SwiperItem source = {require('../../image/item8.png')} text = "点评"/>
+                            <SwiperItem source = {require('../../image/item5.png')} text = "光影秀" mynavigator = {this.props.navigator} />
+                            <SwiperItem source = {require('../../image/item6.png')} text = "头条文章" mynavigator = {this.props.navigator} />
+                            <SwiperItem source = {require('../../image/item7.png')} text = "签到" mynavigator = {this.props.navigator} />
+                            <SwiperItem source = {require('../../image/item8.png')} text = "点评" mynavigator = {this.props.navigator} />
                         </View>
 
                     </View>
                     <View style={styles.slideView}>
                         <View style={{flexDirection:'row'}}>
-                            <SwiperItem source = {require('../../image/item9.png')} text = "话题"/>
-                            <SwiperItem source = {require('../../image/item10.png')} text = "红包"/>
-                            <SwiperItem source = {require('../../image/item11.png')} text = "好友圈"/>
-                            <SwiperItem source = {require('../../image/item12.png')} text = "音乐"/>
+                            <SwiperItem source = {require('../../image/item9.png')} text = "话题" mynavigator = {this.props.navigator}/>
+                            <SwiperItem source = {require('../../image/item10.png')} text = "红包" mynavigator = {this.props.navigator}/>
+                            <SwiperItem source = {require('../../image/item11.png')} text = "好友圈" mynavigator = {this.props.navigator}/>
+                            <SwiperItem source = {require('../../image/item12.png')} text = "音乐" mynavigator = {this.props.navigator}/>
                         </View>
                         <View style={{flexDirection:'row'}}>
-                            <SwiperItem source = {require('../../image/item13.png')} text = "商品"/>
-                            <SwiperItem source = {require('../../image/item14.png')} text = "秒拍"/>
+                            <SwiperItem source = {require('../../image/item13.png')} text = "商品" mynavigator = {this.props.navigator}/>
+                            <SwiperItem source = {require('../../image/item14.png')} text = "秒拍" mynavigator = {this.props.navigator}/>
                         </View>
                     </View>
                 </Swiper>
+                </Animated.View>
                 {/*下方的X号按钮返回*/}
                 <TouchableOpacity onPress={()=>this.backHomeAction()} style={styles.bottomStyle}>
                     <View>
@@ -102,6 +120,7 @@ export default class New extends Component {
 
     //获取日期 天气
     componentDidMount(){
+          this.animate()
         var myDate = new Date();
         /*
          * myDate.getDate() 日

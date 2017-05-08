@@ -33,7 +33,7 @@ export default class Home_logined extends Component {
         // 初始状态
         this.state = {
             dataSource:ds.cloneWithRows(ary),
-            isRefreshing:false
+            isRefreshing:true
         };
     }
     render () {
@@ -60,7 +60,10 @@ export default class Home_logined extends Component {
     }
 
     onRefreshData =() =>{
-        ary = [];
+        ary = []
+        this.setState({
+            dataSource: ds.cloneWithRows(ary),
+        })
         this.loadData(1)
     }
     loadMore =() =>{
@@ -217,7 +220,7 @@ export default class Home_logined extends Component {
                     })
                     this.setState({
                         dataSource: ds.cloneWithRows(ary),
-
+                        isRefreshing:false
                     })
                 }
             })

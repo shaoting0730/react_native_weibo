@@ -13,9 +13,10 @@ import {
 import  TabBar from './tabBar'
 export default class Root extends Component {
     configureScene(e) {
-        if(e.component.name == "New"){  //如果点击的按钮是new,则是从底部推出
+        if(e.component.name == "New" || e.component.name == 'NewStatuses'){  //如果点击的按钮是new,则是从底部推出
             return Navigator.SceneConfigs.FloatFromBottom;
         }
+
         return conf = Navigator.SceneConfigs.HorizontalSwipeJump;
         conf.gestures = null;   //去除手滑动走push和pop
         return conf;

@@ -10,18 +10,54 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    AsyncStorage
 } from 'react-native';
+import NewStatuses from './newStatuses'
+import Login from '../Home/login'
+
 export default class SwiperItem extends Component {
     render() {
         return (
-            <TouchableOpacity  onPress={()=>alert(this.props.text)}>
-            <View style={styles.container}>
-                <Image source={this.props.source} style={{width:40,height:40}}/>
-                <Text style={{marginTop:5,fontSize:10}}>{this.props.text}</Text>
-            </View>
+            <TouchableOpacity  onPress={()=>this.itemOnclick()}>
+                <View style={styles.container}>
+                    <Image source={this.props.source} style={{width:40,height:40}}/>
+                    <Text style={{marginTop:5,fontSize:10}}>{this.props.text}</Text>
+                </View>
             </TouchableOpacity>
         );
+    }
+    itemOnclick = ()=>{
+        AsyncStorage.getItem(
+            'access_token',
+            (error,result)=>{
+                if (!error) {
+                    if (result != null) {
+
+                        if (this.props.text == '文字') {
+                            this.props.mynavigator.push(
+                                {
+                                    component: NewStatuses,
+                                    passProps: {
+                                        'access_token': result
+                                    }
+                                }
+                            )
+                        }
+                    }else {
+                        this.props.mynavigator.push(
+                            {
+                                component: Login,
+                            }
+                        )
+                    }
+                }
+            }
+        )
+
+
+
+
     }
 }
 
