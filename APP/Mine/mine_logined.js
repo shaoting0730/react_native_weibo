@@ -20,6 +20,7 @@ var {width,height} = Dimensions.get('window');
 import Navigator1 from '../Utils/navigator1'
 import MineItem from './mineItem'
 import Info from './infoItem'
+import Setting from './setting'
 export default class Mine_logined extends Component {
 
     // 构造
@@ -96,7 +97,9 @@ export default class Mine_logined extends Component {
     }
 
     rightAction = () =>{
-        alert('设置')
+        this.props.mynavigator.push({
+            component:Setting
+        })
     }
 
 
