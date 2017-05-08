@@ -98,7 +98,10 @@ export default class Mine_logined extends Component {
 
     rightAction = () =>{
         this.props.mynavigator.push({
-            component:Setting
+            component:Setting,
+            passProps:{
+                access_token:this.props.access_token
+            }
         })
     }
 

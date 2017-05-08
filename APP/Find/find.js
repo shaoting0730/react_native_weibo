@@ -24,7 +24,6 @@ export default class Find extends Component {
 
 
     loginOut =()=> {
-        let uri =
             // 取值里面 有 网络请求  有 移除本地存值 有 跳转  ? 性能问题
             AsyncStorage.getItem(
                 'access_token',

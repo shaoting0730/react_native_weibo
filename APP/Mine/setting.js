@@ -12,18 +12,21 @@ import {
     Dimensions,
     ScrollView,
     Platform,
-    NativeModules
+    NativeModules,
+    AsyncStorage
 } from 'react-native';
 import Navigator1 from '../Utils/navigator1'
 import SettingItem from './settingItem'
-var CalendarManager = NativeModules.CalendarManager;
+import  TabBar from '../../tabBar'
+
+var CalendarManager = NativeModules.CalendarManager;  //导入iOS端原生
 
 export default class Setting extends Component {
     constructor(props) {
         super(props);
 
         this.state = ({
-            cache:0
+            cache:0   //缓存大小
 
         })
     }
@@ -59,9 +62,11 @@ export default class Setting extends Component {
                     <View style={{backgroundColor:'#F0F0F0',height:1}}></View>
                     <SettingItem txt1 = '关于微博'/>
                     <View style={{backgroundColor:'#F0F0F0',height:10}}></View>
-                    <View style={{justifyContent:'center',alignItems: 'center'}}>
-                        <Text style={{color:'red',marginTop:5,marginBottom:5}}>退出当前账号</Text>
-                    </View>
+                    <TouchableOpacity  onPress={()=> this.loginOut()}>
+                        <View style={{justifyContent:'center',alignItems: 'center'}}>
+                            <Text style={{color:'red',marginTop:5,marginBottom:5}}>退出当前账号</Text>
+                        </View>
+                    </TouchableOpacity>
                     <View style={{backgroundColor:'#F0F0F0',height:10}}></View>
                 </ScrollView>
             </View>
@@ -77,6 +82,7 @@ export default class Setting extends Component {
     }
 
     componentWillMount() {
+        //通过原生计算缓存大小
         Platform.OS === 'ios' ?
             CalendarManager.cacheSize((error, events) => {
                 if (error) {
@@ -91,6 +97,7 @@ export default class Setting extends Component {
             console.log('安卓清除缓存未实现')
     }
 
+    //清除缓存
     clearCache =() =>{
         Platform.OS === 'ios' ?
             CalendarManager.cleanCache((error, events) => {
@@ -104,6 +111,32 @@ export default class Setting extends Component {
             })
             :
             console.log('安卓清除缓存未实现')
+    }
+
+    //退出登录
+    loginOut = () =>{
+        //值有 开始网络请求
+        fetch('https://api.weibo.com/oauth2/revokeoauth2?access_token=' + this.props.access_token)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json)
+                if(json.result == "true"){  //只有服务器移除授权之后才移除本地存值
+                    AsyncStorage.removeItem(
+                        'access_token',
+                        (error)=>{
+                            if(!error){
+                                //移除完之后开始跳界面
+                                this.props.navigator.immediatelyResetRouteStack([
+                                    {
+                                        component:TabBar
+                                    }
+                                ])
+                            }
+                        }
+                    )
+                }
+
+            })
     }
 
 
