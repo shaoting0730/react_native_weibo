@@ -19,6 +19,8 @@ import {
 } from 'react-native';
 
 import Navigator2 from '../Utils/navigator2'
+import BottomInfo from './bottomInfo'
+import HeaderInfo from './headerInfo'
 var {width,height} = Dimensions.get('window');
 
 var ary = []
@@ -72,47 +74,17 @@ export default class Home_logined extends Component {
     }
 
     renderRow =(rowData,sectionID,rowID,highlightRow) =>{
-        // 截取字符串 <a href="http://app.weibo.com/t/feed/6vtZb0" rel="nofollow">微博 weibo.com</a>
-        let textEnd = ''
-        if(rowData.source){
-            let ary = rowData.source.split('<')
-            let text = ary[1]
-            let startIndex = text.indexOf('>')
-            textEnd = text.substring(startIndex + 1,text.length)
-            textEnd = '来自  ' + textEnd
-        }
-
-
         return(
             <View>
                 {/*头像等信息*/}
-                <View style={{flexDirection:'row',marginLeft:10}}>
-                    <Image source={{uri:rowData.user.profile_image_url}} style={{width:40,height:40,borderRadius:20}}/>
-                    <View style={{marginLeft:5,justifyContent:'space-around'}}>
-                        <Text style={{color:'red'}}>{rowData.user.name}</Text>
-                        <Text style={{color:'#CDC9C9',fontSize:12}}>{textEnd}</Text>
-                    </View>
-                </View>
+                 <HeaderInfo rowData = {rowData} />
                 {/*中间微博信息*/}
                 <View>
                     <Text>{rowData.text}</Text>
                     {this.middleViewRender(rowData,sectionID,rowID,highlightRow)}
                 </View>
                 {/*转发.评论.点赞*/}
-                <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:10}}>
-                    <View style={{flexDirection:'row'}}>
-                        <Image source={require('../../image/转发.png')} style={{width:20,height:20}} />
-                        <Text>{rowData.reposts_count == 0 ? '转发' :rowData.reposts_count}</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Image source={require('../../image/评论.png')} style={{width:20,height:20}} />
-                        <Text>{rowData.comments_count == 0 ? '转发' :rowData.comments_count}</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Image source={require('../../image/点赞.png')} style={{width:20,height:20}} />
-                        <Text>{rowData.attitudes_count == 0 ? '转发' :rowData.attitudes_count}</Text>
-                    </View>
-                </View>
+                <BottomInfo rowData = {rowData} />
                 {/*分隔条*/}
                 <View style={{height:15,backgroundColor:'#CCCCCC'}}/>
 
