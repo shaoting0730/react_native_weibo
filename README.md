@@ -14,6 +14,8 @@
  - [x] 我的界面个人信息<br/>
  - [x] 中间按钮基本界面搭建<br/>
  - [x] 发送纯文字微博<br/>
+ - [x] 我的设置界面搭建<br/>
+ - [x] iOS端清除缓存功能<br/>
  - [ ] 其他<br/>
 运行截图: </br>
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo1.png) 
