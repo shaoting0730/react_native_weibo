@@ -26,5 +26,5 @@
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo8.png) </br>
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/9.png) 
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo10.png) </br>
-![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/11.png)
+![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo11.png)
 该项目不定期更新中
