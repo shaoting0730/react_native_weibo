@@ -51,7 +51,7 @@ export default class HeaderInfo extends Component {
                     transparent={true}
                     visible={this.state.show}
                 >
-                    <ModalView showOnclick = {()=>this.modalShow()} />
+                    <ModalView rowData = {rowData} access_token = {this.props.access_token}  showOnclick = {()=>this.modalShow()} mynavigator = {this.props.mynavigator} />
                 </Modal>
             </View>
         );

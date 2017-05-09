@@ -77,7 +77,7 @@ export default class Home_logined extends Component {
         return(
             <View>
                 {/*头像等信息*/}
-                 <HeaderInfo rowData = {rowData} />
+                 <HeaderInfo rowData = {rowData} access_token = {this.props.access_token} mynavigator = {this.props.mynavigator}/>
                 {/*中间微博信息*/}
                 <View>
                     <Text>{rowData.text}</Text>
@@ -196,6 +196,10 @@ export default class Home_logined extends Component {
                     })
                 }
             })
+    }
+
+    componentWillMount(){
+        ary = []
     }
 
 
