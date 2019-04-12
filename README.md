@@ -34,4 +34,3 @@
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo13.png)
 ![image](https://github.com/pheromone/react_native_weibo/blob/master/projectPic/weibo14.png)</br>
 </br>
-该项目不定期更新中.后期目标:完善该项目:加上相机和二维码功能.学习redux和mbox构架新微博.对比三者区别.
